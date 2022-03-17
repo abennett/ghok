@@ -25,7 +25,7 @@ func toIcon(s string) string {
 	switch s := strings.ToLower(s); s {
 	case "none", "operational":
 		return NONE
-	case "minor", "degraded_performanc":
+	case "minor", "degraded_performance":
 		return MINOR
 	case "major", "partial_outage":
 		return MAJOR
