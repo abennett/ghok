@@ -142,14 +142,16 @@ func main() {
 		}
 		fmt.Fprintf(writer, "%s\t%s\n", c.Name, toIcon(c.Status))
 	}
-	fmt.Fprint(writer, "\n=== Incidents ===")
 	incs := <-incsCh
-	for _, i := range incs.Incidents {
-		fmt.Fprintf(writer, "\nName:\t%s\n", i.Name)
-		fmt.Fprintf(writer, "Impact:\t%s %s\n", toIcon(i.Impact), i.Impact)
-		fmt.Fprintf(writer, "Status:\t%s\n", i.Status)
-		fmt.Fprintf(writer, "Details:\t%s\n", i.Updates[0].Body)
-		fmt.Fprintf(writer, "Link:\t%s\n", i.ShortLink)
+	if len(incs.Incidents) > 0 {
+		fmt.Fprint(writer, "\n=== Incidents ===")
+		for _, i := range incs.Incidents {
+			fmt.Fprintf(writer, "\nName:\t%s\n", i.Name)
+			fmt.Fprintf(writer, "Impact:\t%s %s\n", toIcon(i.Impact), i.Impact)
+			fmt.Fprintf(writer, "Status:\t%s\n", i.Status)
+			fmt.Fprintf(writer, "Details:\t%s\n", i.Updates[0].Body)
+			fmt.Fprintf(writer, "Link:\t%s\n", i.ShortLink)
+		}
 	}
 	writer.Flush()
 }
