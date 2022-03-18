@@ -15,7 +15,7 @@ const (
 	INCIDENTS = "https://www.githubstatus.com/api/v2/incidents/unresolved.json"
 
 	NONE     = "✅"
-	MINOR    = "🌕"
+	MINOR    = "🟡"
 	MAJOR    = "🟠"
 	CRITICAL = "🔴"
 	UNKNOWN  = "❔"
