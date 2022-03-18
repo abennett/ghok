@@ -15,7 +15,7 @@ Codespaces      ✅
 
 === Incidents ===
 Name:    Incident with GitHub Actions
-Impact:  🌕 minor
+Impact:  🟡 minor
 Status:  investigating
 Details: We are investigating reports of degraded performance for GitHub Actions.
 Link:    https://stspg.io/4g7zvr319njb
