@@ -8,6 +8,7 @@ import (
 	"os"
 	"strings"
 	"text/tabwriter"
+	"time"
 )
 
 const (
@@ -47,10 +48,10 @@ type IncidentsResponse struct {
 }
 
 type Page struct {
-	ID        string `json:"id"`
-	Name      string `json:"name"`
-	URL       string `json:"url"`
-	UpdatedAt string `json:"updated_at"`
+	ID        string    `json:"id"`
+	Name      string    `json:"name"`
+	URL       string    `json:"url"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 type Component struct {
@@ -77,7 +78,7 @@ type Incident struct {
 	Name      string   `json:"name"`
 	ShortLink string   `json:"shortlink"`
 	Status    string   `json:"status"`
-	UpdatedAt string   `json:"updated_at"`
+	UpdatedAt time.Time   `json:"updated_at"`
 }
 
 type Update struct {
@@ -135,7 +136,8 @@ func main() {
 	}()
 	writer := tabwriter.NewWriter(os.Stdout, 4, 4, 1, ' ', 0)
 	cmps := <-cmpsCh
-	fmt.Fprint(writer, "=== Components ===\n")
+	fTime := cmps.Page.UpdatedAt.Format(time.RFC822)
+	fmt.Fprintf(writer, "=== Components as of %s === \n", fTime)
 	for _, c := range cmps.Components {
 		if c.ID == "0l2p9nhqnxpd" {
 			continue
@@ -146,11 +148,13 @@ func main() {
 	if len(incs.Incidents) > 0 {
 		fmt.Fprint(writer, "\n=== Incidents ===")
 		for _, i := range incs.Incidents {
+            fTime := i.UpdatedAt.Format(time.RFC822)
 			fmt.Fprintf(writer, "\nName:\t%s\n", i.Name)
 			fmt.Fprintf(writer, "Impact:\t%s %s\n", toIcon(i.Impact), i.Impact)
 			fmt.Fprintf(writer, "Status:\t%s\n", i.Status)
 			fmt.Fprintf(writer, "Details:\t%s\n", i.Updates[0].Body)
 			fmt.Fprintf(writer, "Link:\t%s\n", i.ShortLink)
+            fmt.Fprintf(writer, "Last Updated:\t%s\n", fTime)
 		}
 	}
 	writer.Flush()
